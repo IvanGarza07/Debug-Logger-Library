@@ -55,16 +55,15 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.startup.runtime)
+    implementation(libs.androidx.work.runtime.ktx)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
@@ -72,7 +71,22 @@ dependencies {
     GOOGLE
      ******************************************************/
     implementation(libs.google.material)
+
+    /*******************************************************
+    HILT
+     ******************************************************/
     implementation(libs.google.hilt.android)
+    ksp(libs.google.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.worker)
+    ksp(libs.androidx.hilt.compiler)
+
+    /*******************************************************
+    ROOM
+     ******************************************************/
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     /*******************************************************
     KOTLIN
@@ -85,27 +99,16 @@ dependencies {
     implementation(libs.timber)
 
     /*******************************************************
-    KAPT
-     ******************************************************/
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.google.hilt.compiler)
-    ksp(libs.google.hilt.android.compiler)
-
-    /*******************************************************
     TEST
      ******************************************************/
     testImplementation(libs.google.hilt.android.testing)
     testImplementation(libs.junit)
+    kspTest(libs.google.hilt.android.testing)
 
     /*******************************************************
     ANDROID TEST
      ******************************************************/
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    /*******************************************************
-    KSP TEST
-     ******************************************************/
-    kspTest(libs.google.hilt.android.testing)
     kspAndroidTest(libs.google.hilt.android.testing)
 }

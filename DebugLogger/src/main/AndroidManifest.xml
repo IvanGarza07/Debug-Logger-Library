@@ -13,6 +13,15 @@
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask"/>
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="${applicationId}.androidx-startup">
+            <meta-data
+                android:name="com.igarza.debuglogger.data.worker.DebugLoggerWorkManagerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
         <receiver
             android:name="com.igarza.debuglogger.data.notification.LogNotificationReceiver"
             android:exported="false" />

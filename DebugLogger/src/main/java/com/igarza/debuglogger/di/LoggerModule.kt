@@ -1,5 +1,6 @@
 package com.igarza.debuglogger.di
 
+import androidx.hilt.work.HiltWorkerFactory
 import com.igarza.debuglogger.data.logger.DebugLogger
 import com.igarza.debuglogger.data.logger.LoggerConfigProvider
 import com.igarza.debuglogger.data.notification.LogNotificationManager
