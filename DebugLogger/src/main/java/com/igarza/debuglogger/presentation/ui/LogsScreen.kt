@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.FormatListBulleted
+import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Badge
@@ -65,6 +66,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.igarza.debuglogger.domain.enums.LogLevel
 import com.igarza.debuglogger.domain.model.LogEntry
 import com.igarza.debuglogger.domain.model.LogFilter
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -137,7 +139,10 @@ fun LogsScreen(
     if (showFilterSheet) {
         FilterBottomSheet(
             filter = filter,
-            onDismiss = { showFilterSheet = false },
+            onDismiss = {
+                showFilterSheet = false
+                Timber.tag("LogsScreen").d("Filter Bottom Sheet: $showFilterSheet")
+            },
             onSearchChange = { viewModel.updateSearchQuery(it) },
             onToggleLevel = { viewModel.toggleLogLevel(it) },
             onClearFilter = { viewModel.clearFilter() }
@@ -147,7 +152,10 @@ fun LogsScreen(
     // Clear Confirmation Dialog
     if (showClearDialog) {
         AlertDialog(
-            onDismissRequest = { showClearDialog = false },
+            onDismissRequest = {
+                showClearDialog = false
+                Timber.tag("LogsScreen").d("Clear Bottom Sheet: $showClearDialog")
+            },
             title = { Text("Clear All Logs?") },
             text = { Text("This will permanently delete all $logCount logs.") },
             confirmButton = {
@@ -155,13 +163,17 @@ fun LogsScreen(
                     onClick = {
                         viewModel.clearAllLogs()
                         showClearDialog = false
+                        Timber.tag("LogsScreen").d("Clear Bottom Sheet: $showClearDialog")
                     }
                 ) {
                     Text("Clear", color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showClearDialog = false }) {
+                TextButton(onClick = {
+                    showClearDialog = false
+                    Timber.tag("LogsScreen").d("Clear Bottom Sheet: $showClearDialog")
+                }) {
                     Text("Cancel")
                 }
             }
@@ -545,7 +557,10 @@ fun LogDetailSheet(
 
     if (showDeleteDialog) {
         AlertDialog(
-            onDismissRequest = { showDeleteDialog = false },
+            onDismissRequest = {
+                showDeleteDialog = false
+                Timber.tag("LogsScreen").d("Delete Bottom Sheet: $showDeleteDialog")
+            },
             title = { Text("Delete Log?") },
             text = { Text("This action cannot be undone.") },
             confirmButton = {
@@ -553,13 +568,17 @@ fun LogDetailSheet(
                     onClick = {
                         onDelete()
                         showDeleteDialog = false
+                        Timber.tag("LogsScreen").d("Delete Bottom Sheet: $showDeleteDialog")
                     }
                 ) {
                     Text("Delete", color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) {
+                TextButton(onClick = {
+                    showDeleteDialog = false
+                    Timber.tag("LogsScreen").d("Delete Bottom Sheet: $showDeleteDialog")
+                }) {
                     Text("Cancel")
                 }
             }
@@ -578,7 +597,7 @@ fun EmptyState() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Icon(
-                Icons.Default.FormatListBulleted,
+                Icons.Default.FormatListNumbered,
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
@@ -597,7 +616,7 @@ fun EmptyState() {
     }
 }
 
-fun getLogLevelColor(level: LogLevel):Color {
+fun getLogLevelColor(level: LogLevel): Color {
     return when (level) {
         LogLevel.VERBOSE -> Color(0xFF9E9E9E)
         LogLevel.DEBUG -> Color(0xFF2196F3)

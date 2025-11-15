@@ -24,31 +24,31 @@ class DebugLogger @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val timberAvailable = isTimberAvailable()
 
-    init {
-        // Set singleton instance when created by Hilt
-        instance = this
-    }
-
-    companion object {
-        @Volatile
-        private var instance: DebugLogger? = null
-
-        fun getInstance(): DebugLogger {
-            return instance ?: throw IllegalStateException(
-                "DebugLogger must be initialized first. Call DebugLogger.initialize()"
-            )
-        }
-
-        // Convenience methods
-        fun v(tag: String, message: String) = getInstance().verbose(tag, message)
-        fun d(tag: String, message: String) = getInstance().debug(tag, message)
-        fun i(tag: String, message: String) = getInstance().info(tag, message)
-        fun w(tag: String, message: String) = getInstance().warn(tag, message)
-        fun e(tag: String, message: String, throwable: Throwable? = null) =
-            getInstance().error(tag, message, throwable)
-        fun wtf(tag: String, message: String, throwable: Throwable? = null) =
-            getInstance().wtf(tag, message, throwable)
-    }
+//    init {
+//        // Set singleton instance when created by Hilt
+//        instance = this
+//    }
+//
+//    companion object {
+//        @Volatile
+//        private var instance: DebugLogger? = null
+//
+//        fun getInstance(): DebugLogger {
+//            return instance ?: throw IllegalStateException(
+//                "DebugLogger must be initialized first. Call DebugLogger.initialize()"
+//            )
+//        }
+//
+//        // Convenience methods
+//        fun v(tag: String, message: String) = getInstance().verbose(tag, message)
+//        fun d(tag: String, message: String) = getInstance().debug(tag, message)
+//        fun i(tag: String, message: String) = getInstance().info(tag, message)
+//        fun w(tag: String, message: String) = getInstance().warn(tag, message)
+//        fun e(tag: String, message: String, throwable: Throwable? = null) =
+//            getInstance().error(tag, message, throwable)
+//        fun wtf(tag: String, message: String, throwable: Throwable? = null) =
+//            getInstance().wtf(tag, message, throwable)
+//    }
 
     fun verbose(tag: String, message: String) {
         log(LogLevel.VERBOSE, tag, message, null)

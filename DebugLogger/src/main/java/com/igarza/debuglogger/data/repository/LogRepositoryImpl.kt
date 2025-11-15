@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LogRepositoryImpl @Inject constructor(
+internal class LogRepositoryImpl @Inject constructor(
     private val logDao: LogDao
 ) : LogRepository {
 
