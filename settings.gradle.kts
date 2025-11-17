@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "debugLogger"
 include(":app")
-include(":DebugLogger")
+include(":DebugLoggerCore")

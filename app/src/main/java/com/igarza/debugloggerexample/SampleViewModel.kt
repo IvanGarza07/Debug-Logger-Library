@@ -1,45 +1,56 @@
 package com.igarza.debugloggerexample
 
 import androidx.lifecycle.ViewModel
-import com.igarza.debuglogger.data.logger.DebugLogger
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import androidx.lifecycle.ViewModelProvider
+import com.igarza.debugloggercore.data.logger.DebugLogger
 
-@HiltViewModel
-class SampleViewModel @Inject constructor(
-    private val debugLogger: DebugLogger
-) : ViewModel() {
+class SampleViewModel() : ViewModel() {
 
     fun logNotificationPermission(isGranted: Boolean) {
         if (isGranted) {
-            debugLogger.info("MainActivity", "Notification permission granted")
+            DebugLogger.i("MainActivity", "Notification permission granted")
         } else {
-            debugLogger.warn("MainActivity", "Notification permission denied")
+            DebugLogger.w("MainActivity", "Notification permission denied")
         }
     }
 
     fun logAlready() {
-        debugLogger.info("MainActivity", "Notification permission already granted")
+        DebugLogger.i("MainActivity", "Notification permission already granted")
     }
 
     fun triggerLogs() {
         // Logging básico
-        debugLogger.debug("SampleViewModel", "Function called")
+        DebugLogger.d("SampleViewModel", "Function called")
 
         // Logging con diferentes niveles
-        debugLogger.verbose("TAG", "Verbose message")
-        debugLogger.info("TAG", "Info message")
-        debugLogger.warn("TAG", "Warning message")
+        DebugLogger.v("TAG", "Verbose message")
+        DebugLogger.i("TAG", "Info message")
+        DebugLogger.w("TAG", "Warning message")
+        DebugLogger.a("TAG", "Assert message")
 
         // Logging de errores con exception
         try {
             performRiskyOperation()
         } catch (e: Exception) {
-            debugLogger.error("SampleViewModel", "Error occurred", e)
+            DebugLogger.e("SampleViewModel", "Error occurred", e)
         }
     }
 
     private fun performRiskyOperation() {
         throw Exception("Something went wrong")
+    }
+
+    companion object {
+        fun provideFactory(): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    if (modelClass.isAssignableFrom(SampleViewModel::class.java)) {
+                        return SampleViewModel() as T
+                    }
+                    throw IllegalArgumentException("Unknown ViewModel class")
+                }
+            }
+        }
     }
 }

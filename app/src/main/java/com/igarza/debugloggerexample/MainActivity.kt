@@ -19,13 +19,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.igarza.debugloggerexample.ui.theme.DebugLoggerTheme
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val sampleViewModel: SampleViewModel by viewModels()
+    private val sampleViewModel: SampleViewModel by viewModels() {
+        SampleViewModel.provideFactory()
+    }
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
