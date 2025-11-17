@@ -1,8 +1,8 @@
 package com.igarza.debugloggerexample
 
 import android.app.Application
-import com.igarza.debugloggercore.data.logger.DebugLogger
-import com.igarza.debugloggercore.domain.model.LoggerConfig
+import com.igarza.debuglogger.data.logger.DebugLogger
+import com.igarza.debuglogger.domain.model.LoggerConfig
 
 class LoggerExampleApplication : Application() {
 

@@ -2,7 +2,7 @@ package com.igarza.debugloggerexample
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.igarza.debugloggercore.data.logger.DebugLogger
+import com.igarza.debuglogger.data.logger.DebugLogger
 
 class SampleViewModel() : ViewModel() {
 

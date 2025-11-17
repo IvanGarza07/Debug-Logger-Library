@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.igarza.debugloggercore"
+    namespace = "com.igarza.debuglogger"
     compileSdk {
         version = release(36)
     }

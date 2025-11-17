@@ -14,7 +14,7 @@
             android:launchMode="singleTask"/>
 
         <receiver
-            android:name="com.igarza.debugloggercore.data.notification.LogNotificationReceiver"
+            android:name="com.igarza.debuglogger.data.notification.LogNotificationReceiver"
             android:exported="false" />
     </application>
 
