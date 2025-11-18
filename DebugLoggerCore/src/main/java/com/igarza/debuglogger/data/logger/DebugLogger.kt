@@ -1,6 +1,5 @@
 package com.igarza.debuglogger.data.logger
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.igarza.debuglogger.data.notification.LogNotificationManager
@@ -87,31 +86,31 @@ class DebugLogger(
         }
     }
 
-    fun verbose(tag: String, message: String) {
+    private fun verbose(tag: String, message: String) {
         log(LogLevel.VERBOSE, tag, message, null)
     }
 
-    fun debug(tag: String, message: String) {
+    private fun debug(tag: String, message: String) {
         log(LogLevel.DEBUG, tag, message, null)
     }
 
-    fun info(tag: String, message: String) {
+    private fun info(tag: String, message: String) {
         log(LogLevel.INFO, tag, message, null)
     }
 
-    fun warn(tag: String, message: String) {
+    private fun warn(tag: String, message: String) {
         log(LogLevel.WARN, tag, message, null)
     }
 
-    fun error(tag: String, message: String, throwable: Throwable? = null) {
+    private fun error(tag: String, message: String, throwable: Throwable? = null) {
         log(LogLevel.ERROR, tag, message, throwable)
     }
 
-    fun assert(tag: String, message: String, throwable: Throwable? = null) {
+    private fun assert(tag: String, message: String, throwable: Throwable? = null) {
         log(LogLevel.WTF, tag, message, throwable)
     }
 
-    fun clearLogs() {
+    private fun clearLogs() {
         scope.launch {
             repository.clearAllLogs()
             notificationManager.hideNotification()
@@ -156,7 +155,6 @@ class DebugLogger(
         }
     }
 
-    @SuppressLint("LogNotTimber")
     private fun logViaAndroidLog(
         level: LogLevel,
         tag: String,
@@ -173,7 +171,6 @@ class DebugLogger(
         }
     }
 
-    @SuppressLint("LogNotTimber")
     private fun logViaTimber(level: LogLevel, tag: String, message: String, throwable: Throwable?) {
         try {
             val timberClass = Class.forName("timber.log.Timber")
@@ -232,7 +229,6 @@ class DebugLogger(
         }
     }
 
-    @SuppressLint("LogNotTimber")
     private fun isTimberAvailable(): Boolean {
         return try {
             Class.forName("timber.log.Timber")

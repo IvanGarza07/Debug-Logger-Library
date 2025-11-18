@@ -84,14 +84,13 @@ dependencies {
     implementation(libs.kotlin.coroutines.android)
 
     /*******************************************************
-    THIRD PART LIBS
-     ******************************************************/
-    //implementation(libs.timber)
-
-    /*******************************************************
     TEST
      ******************************************************/
+    testImplementation(libs.androidx.arch.core)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.kotlin)
 
     /*******************************************************
     ANDROID TEST
