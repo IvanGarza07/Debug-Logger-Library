@@ -2,6 +2,11 @@
 
 A modern and powerful debugging library for Android, inspired by Chucker but focused on custom logging.
 
+## Latest Version
+
+[![Version 1.0.0](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)]()
+Check the [CHANGELOG](https://github.com/IvanGarza07/Debug-Logger-Library/blob/develop/CHANGELOG.md)
+
 ## ✨ Features
 
 - 📝 **Persistent Logging** - All logs are saved to Room Database

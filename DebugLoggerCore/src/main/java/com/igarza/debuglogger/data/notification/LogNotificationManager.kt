@@ -1,5 +1,6 @@
 package com.igarza.debuglogger.data.notification
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import com.igarza.debuglogger.data.notification.NotificationUtils.NOTIFICATION_ID
@@ -14,6 +15,7 @@ class LogNotificationManager(private val context: Context) {
         NotificationUtils.createNotificationChannel(notificationManager)
     }
 
+    @SuppressLint("MissingPermission")
     fun showNotification(latestLogs: List<LogEntry>) {
         NotificationUtils.showNotification(
             context = context,

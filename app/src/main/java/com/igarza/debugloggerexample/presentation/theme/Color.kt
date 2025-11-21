@@ -1,4 +1,4 @@
-package com.igarza.debugloggerexample.ui.theme
+package com.igarza.debugloggerexample.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

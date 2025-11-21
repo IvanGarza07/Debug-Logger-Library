@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DebugLogger">
         <activity
-            android:name="com.igarza.debugloggerexample.MainActivity"
+            android:name="com.igarza.debugloggerexample.presentation.ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.DebugLogger">
             <intent-filter>
