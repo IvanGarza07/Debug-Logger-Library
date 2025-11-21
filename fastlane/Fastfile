@@ -1,0 +1,122 @@
+require "json"
+
+default_platform(:android)
+
+platform :android do
+
+  # ---------------------------------------------------------
+  # 📦 1) LOCAL PUBLISH
+  # ---------------------------------------------------------
+  desc "Publish library in local maven ~/.m2/repository"
+  lane :publish_local do
+    UI.message("📦 Publishing in mavenLocal()...")
+
+    gradle(
+      task: "publishToMavenLocal"
+    )
+
+    UI.success("🎉 Locally published library. Use mavenLocal() in another project to test it.")
+  end
+
+
+  # ---------------------------------------------------------
+  # 🚀 2) MAVEN CENTRAL PUBLISH
+  # ---------------------------------------------------------
+  desc "Publish library in Maven Central using Sonatype Central API"
+  lane :publish_maven do
+    UI.message("🔧 Packing and uploading artifacts...")
+
+    gradle(
+      task: "publishMavenPublicationToMavenCentralRepository",
+      properties: {
+        "signing.keyId"              => ENV["SIGNING_KEY_ID"],
+        "signing.password"           => ENV["SIGNING_PASSWORD"],
+        "signing.secretKeyRingFile"  => ENV["SIGNING_SECRET_KEY_FILE"],
+        "sonatypeUsername"           => ENV["SONATYPE_USERNAME"],
+        "sonatypePassword"           => ENV["SONATYPE_PASSWORD"]
+      }
+    )
+
+    UI.success("📦 Artifacts uploaded. Starting release...")
+
+    # ---- REQUEST DEPLOYMENT ----
+    deployments_list_response = sh("
+      curl -X POST \
+        'https://central.sonatype.com/api/v1/publisher/deployments/files' \
+        -H \"accept: application/json\" \
+        -H \"Authorization: Basic #{ENV["CENTRAL_PORTAL_TOKEN"]}\" \
+        -H \"Content-Type: application/json\" \
+        -d \"{
+        \"page\": 0,
+        \"size\": 500,
+        \"sortField\": "createdTimestamp",
+        \"sortDirection\": "desc",
+        \"deploymentIds\": [],
+        \"pathStarting\": "org/sonatype/nexus/"
+      }\"
+    ")
+
+    UI.message("📨 Sonatype response:")
+    UI.message(deployments_list_response)
+    deployments_list_json = JSON.parse(deployments_list_response)
+
+    last_deployment = deployments_list_json["deployments"]&.first
+    deployment_id = last_deployment["deploymentId"]
+
+    if deployment_id.nil?
+      UI.error("❌ No deploymentId was found in the Sonatype response.")
+      UI.error("Complete response:\n#{deployments_list_response}")
+      next
+    end
+
+    UI.message("🕒 Waiting for Sonatype to complete the publication... (requestId=#{deployment_id})")
+
+    # ---- POLLING ----
+    20.times do
+      sleep 10
+
+      response = sh("
+            curl -s -X POST \
+            https://central.sonatype.com/api/v1/publisher/status#{request_id} \
+            -H \"Content-Type: application/json\" \
+            -H \"Authorization: Basic #{ENV["CENTRAL_PORTAL_TOKEN"]}\"
+          ")
+
+      response_json = JSON.parse(response)
+
+      state = response_json["deploymentState"]
+      errors = response_json["errors"]
+      deployment_id = response_json["deploymentId"]
+      deployment_name = response_json["deploymentName"]
+
+      UI.message("📡 Estado actual: #{state}")
+
+      case state
+      when "COMPLETE"
+        UI.success("🎉 Successful publication! Your artifact is now in Maven Central.")
+        return
+      when "FAILED"
+        UI.error("❌ Publication FAILED!")
+
+        if response_json["errors"]
+          UI.error("📌 Detailed errors:")
+
+          response_json["errors"].each do |artifact, messages|
+            UI.error("➡️ Artifact: #{artifact}")
+            messages.each do |msg|
+              UI.error("   - #{msg}")
+            end
+          end
+        end
+
+        UI.user_error!("❌ Sonatype flagged a failure in the publication.")
+      else
+        UI.message("⏳ Deployment is still in progress. Retrying...")
+      end
+
+    end
+
+    UI.user_error!("⏳ Timeout waiting Sonatype.")
+  end
+
+end
