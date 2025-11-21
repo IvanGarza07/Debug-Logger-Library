@@ -213,3 +213,7 @@ output.json
 # Kotlin gen
 .kotlin
 
+# Fastlane files
+fastlane/.env
+fastlane/.env.default
+fastlane/report.xml

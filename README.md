@@ -28,9 +28,7 @@ In your app's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    debugImplementation(project(":debuglogger"))
-    // Or if published:
-    // debugImplementation("com.yourcompany:debuglogger:1.0.0")
+    implementation("io.github.ivangarza07:debuglogger:1.0.0")
     
     // Timber (OPTIONAL - for better logging)
     implementation("com.jakewharton.timber:timber:5.0.1")

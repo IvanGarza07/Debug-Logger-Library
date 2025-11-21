@@ -17,7 +17,7 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    debugImplementation(project(":DebugLoggerCore"))
+    //debugImplementation(project(":DebugLoggerCore"))
 
     /*******************************************************
     ANDROID
@@ -64,6 +64,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     implementation(libs.timber)
+    implementation(libs.debuglogger)
 
     /*******************************************************
     TEST

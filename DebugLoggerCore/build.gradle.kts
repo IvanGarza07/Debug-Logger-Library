@@ -5,6 +5,44 @@ plugins {
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.vanniktech.maven.publish)
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.ivangarza07",
+        artifactId = "debuglogger",
+        version = "1.0.0"
+    )
+
+    pom {
+        name.set("DebugLogger")
+        description.set("Android debug logging library")
+        url.set("https://github.com/IvanGarza07/Debug-Logger-Library")
+        inceptionYear.set("2025")
+
+        licenses {
+            license {
+                name.set("Apache License 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+            }
+        }
+
+        developers {
+            developer {
+                id.set("IvanGarza07")
+                name.set("Ivan Garza")
+                email.set("ivan.darkness.07@gmail.com")
+                url.set("https://github.com/IvanGarza07/")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/IvanGarza07/Debug-Logger-Library")
+            connection.set("scm:git:git://github.com/IvanGarza07/Debug-Logger-Library.git")
+            developerConnection.set("scm:git:ssh://git@github.com/IvanGarza07/Debug-Logger-Library.git")
+        }
+    }
 }
 
 android {
@@ -29,15 +67,18 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+
     buildFeatures {
         compose = true
     }
